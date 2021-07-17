@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/homeFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_home"
+        android:title="Home" />
+
+    <item
+        android:id="@+id/coinFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_coin"
+        android:title="Coin" />
+
+    <item
+        android:id="@+id/trendingFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_trending"
+        android:title="Trend" />
+
+    <item
+        android:id="@+id/exchangeFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_exchange"
+        android:title="Exchange" />
+
+    <item
+        android:id="@+id/moreFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_more"
+        android:title="More" />
+
+</menu>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent_nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="xyz.cybernerd404.cryptox.view.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/coinFragment"
+        android:name="xyz.cybernerd404.cryptox.view.coins.CoinFragment"
+        android:label="fragment_coin"
+        tools:layout="@layout/fragment_coin" />
+    <fragment
+        android:id="@+id/trendingFragment"
+        android:name="xyz.cybernerd404.cryptox.view.trending.TrendingFragment"
+        android:label="fragment_trending"
+        tools:layout="@layout/fragment_trending" />
+    <fragment
+        android:id="@+id/exchangeFragment"
+        android:name="xyz.cybernerd404.cryptox.view.exchange.ExchangeFragment"
+        android:label="fragment_exchange"
+        tools:layout="@layout/fragment_exchange" />
+    <fragment
+        android:id="@+id/moreFragment"
+        android:name="xyz.cybernerd404.cryptox.view.more.MoreFragment"
+        android:label="fragment_more"
+        tools:layout="@layout/fragment_more" />
+</navigation>
