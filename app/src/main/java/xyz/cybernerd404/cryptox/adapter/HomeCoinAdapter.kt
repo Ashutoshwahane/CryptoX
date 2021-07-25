@@ -23,8 +23,7 @@ class HomeCoinAdapter(private val context: Context) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
         val v =
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.home_coin_item_view, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.home_coin_item_view, parent, false)
         return ViewHolder(v)
     }
 
@@ -37,10 +36,9 @@ class HomeCoinAdapter(private val context: Context) :
         Glide.with(context)
             .load(list[position].image)
             .placeholder(R.drawable.ic_coin)
-            .centerCrop()
-            .into(holder.itemView.coin_iv);
+            .into(holder.itemView.coin_iv)
 
-        holder.itemView.coin_rate_tv.text = list[position].current_price.toString() + "₹"
+        holder.itemView.coin_rate_tv.text = "${list[position].current_price}₹"
         holder.itemView.coin_title_tv.text = list[position].name
         holder.itemView.coin_symbol_tv.text = list[position].symbol
 

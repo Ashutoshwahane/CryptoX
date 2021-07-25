@@ -35,7 +35,7 @@ class CoinFragment : BaseFragment<CoinViewModel, FragmentCoinBinding, CoinReposi
 
         coinAdapter = HomeCoinAdapter(requireContext())
         binding.homeCoinRv.adapter = coinAdapter
-        binding.homeCoinRv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true)
+        binding.homeCoinRv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
         viewModel.getCoin()
         binding.progessBarCoin.visibility = View.VISIBLE
