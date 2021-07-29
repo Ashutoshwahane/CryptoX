@@ -1,60 +1,79 @@
 package xyz.cybernerd404.cryptox.view.trending
 
 import android.os.Bundle
+import android.os.Handler
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.fragment_coin.*
+import kotlinx.android.synthetic.main.fragment_trending.*
 import xyz.cybernerd404.cryptox.R
+import xyz.cybernerd404.cryptox.adapter.TrendingNewsAdapter
+import xyz.cybernerd404.cryptox.databinding.FragmentTrendingBinding
+import xyz.cybernerd404.cryptox.network.CryptoApi
+import xyz.cybernerd404.cryptox.network.Resource
+import xyz.cybernerd404.cryptox.repository.NewsRepository
+import xyz.cybernerd404.cryptox.utils.debug
+import xyz.cybernerd404.cryptox.view.base.BaseFragment
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [TrendingFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class TrendingFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class TrendingFragment : BaseFragment<NewsViewModel, FragmentTrendingBinding, NewsRepository>() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    lateinit var newsAdapter: TrendingNewsAdapter
+
+    override fun getViewModel(): Class<NewsViewModel> = NewsViewModel::class.java
+
+    override fun getFragmentBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+    ) = FragmentTrendingBinding.inflate(inflater, container, false)
+
+    override fun getFragmentRepository() =
+        NewsRepository(privateDataSource.buildApi(CryptoApi::class.java))
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        newsAdapter = TrendingNewsAdapter(requireContext())
+
+        binding.trendingNewsRv.adapter = newsAdapter
+        binding.trendingNewsRv.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+
+        binding.progessBarNews.visibility = View.VISIBLE
+
+        viewModel.getNews()
+        getData()
+
+        swipe_trending.setOnRefreshListener {
+            debug("swipe down to refresh the layout")
+            getData()
         }
+
+
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_trending, container, false)
-    }
+    private fun getData() {
+        viewModel.getNews()
+        viewModel.newsResponse.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is Resource.Success -> {
+                    newsAdapter.setNews(it.value.data)
+                    binding.progessBarNews.visibility = View.GONE
+                    binding.swipeTrending.isRefreshing = false
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment TrendingFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            TrendingFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                }
+                is Resource.Failure -> {
+                    binding.progessBarNews.visibility = View.GONE
+                    Toast.makeText(requireContext(), "Response Failure", Toast.LENGTH_SHORT).show()
+                    binding.swipeTrending.isRefreshing = false
+
                 }
             }
+        })
     }
 }

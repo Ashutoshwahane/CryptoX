@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
+import xyz.cybernerd404.cryptox.network.PrivateDataSource
 import xyz.cybernerd404.cryptox.network.RemoteDataSource
 import xyz.cybernerd404.cryptox.repository.BaseRepository
 
@@ -21,15 +22,19 @@ abstract class BaseFragment<VM : ViewModel, B : ViewBinding, R : BaseRepository>
 
     protected lateinit var binding: B
     protected val remoteDataSource = RemoteDataSource()
+    protected val privateDataSource = PrivateDataSource()
     protected lateinit var viewModel: VM
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val factory = ViewModelFactory(getFragmentRepository())
+        viewModel = ViewModelProvider(this, factory).get(getViewModel())
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = getFragmentBinding(inflater, container)
-        val factory = ViewModelFactory(getFragmentRepository())
-        viewModel = ViewModelProvider(this, factory).get(getViewModel())
         return binding.root
     }
 

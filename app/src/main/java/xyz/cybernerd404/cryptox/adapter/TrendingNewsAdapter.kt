@@ -10,21 +10,23 @@ import kotlinx.android.synthetic.main.home_coin_item_view.view.*
 import xyz.cybernerd404.cryptox.R
 import xyz.cybernerd404.cryptox.databinding.HomeCoinItemViewBinding
 import xyz.cybernerd404.cryptox.databinding.HomeTokenItemViewBinding
+import xyz.cybernerd404.cryptox.databinding.TrendingNewsItemLayoutBinding
 import xyz.cybernerd404.cryptox.model.CoinResponseItem
+import xyz.cybernerd404.cryptox.model.Data
 
 
-class HomeCoinAdapter(private val context: Context) :
-    RecyclerView.Adapter<HomeCoinAdapter.ViewHolder>() {
-    var list: List<CoinResponseItem> = arrayListOf()
+class TrendingNewsAdapter(private val context: Context) :
+    RecyclerView.Adapter<TrendingNewsAdapter.ViewHolder>() {
+    var list: List<Data> = arrayListOf()
 
-    fun setCoin(response: List<CoinResponseItem>) {
+    fun setNews(response: List<Data>) {
         this.list = response
         notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
-        return ViewHolder(HomeCoinItemViewBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return ViewHolder(TrendingNewsItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun getItemCount(): Int {
@@ -34,18 +36,18 @@ class HomeCoinAdapter(private val context: Context) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         Glide.with(context)
-            .load(list[position].image)
+            .load(list[position].image_url)
             .placeholder(R.drawable.ic_coin)
-            .into(holder.itemView.coin_iv)
-        holder.binding.coinRateTv.text = "${list[position].current_price}₹"
-        holder.binding.coinTitleTv.text = list[position].name
-        holder.binding.coinSymbolTv.text = list[position].symbol
+            .override(1000, 60)
+            .into(holder.binding.newsItemIv)
+
+        holder.binding.newsTitleTv.text = list[position].title
 
 
     }
 
 
-    class ViewHolder(val binding: HomeCoinItemViewBinding) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(val binding: TrendingNewsItemLayoutBinding) : RecyclerView.ViewHolder(binding.root)
 
 
 }

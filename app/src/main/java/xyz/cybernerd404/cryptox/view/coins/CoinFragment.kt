@@ -12,53 +12,73 @@ import xyz.cybernerd404.cryptox.databinding.FragmentCoinBinding
 import xyz.cybernerd404.cryptox.network.CryptoApi
 import xyz.cybernerd404.cryptox.network.Resource
 import xyz.cybernerd404.cryptox.repository.CoinRepository
+import xyz.cybernerd404.cryptox.utils.debug
 import xyz.cybernerd404.cryptox.view.base.BaseFragment
 
 class CoinFragment : BaseFragment<CoinViewModel, FragmentCoinBinding, CoinRepository>() {
 
-    lateinit var coinAdapter :HomeCoinAdapter
+    lateinit var coinAdapter: HomeCoinAdapter
 
     override fun getViewModel() = CoinViewModel::class.java
 
     override fun getFragmentBinding(
         inflater: LayoutInflater,
-        container: ViewGroup?
+        container: ViewGroup?,
     ) = FragmentCoinBinding.inflate(inflater, container, false)
 
-    override fun getFragmentRepository() = CoinRepository(remoteDataSource.buildApi(CryptoApi::class.java))
+    override fun getFragmentRepository() =
+        CoinRepository(remoteDataSource.buildApi(CryptoApi::class.java))
 
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        coinAdapter = HomeCoinAdapter(requireContext())
+
+    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        coinAdapter = HomeCoinAdapter(requireContext())
-        binding.homeCoinRv.adapter = coinAdapter
-        binding.homeCoinRv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
-        viewModel.getCoin()
+        binding.homeCoinRv.adapter = coinAdapter
+        binding.homeCoinRv.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+
         binding.progessBarCoin.visibility = View.VISIBLE
 
-        viewModel.coinResponse.observe(viewLifecycleOwner, Observer {
-            when(it){
-                is Resource.Success -> {
-                    coinAdapter.setCoin(it.value)
-                    binding.progessBarCoin.visibility = View.GONE
-                }
-                is Resource.Failure -> {
-                    binding.progessBarCoin.visibility = View.GONE
-                    Toast.makeText(requireContext(), "Response Failure", Toast.LENGTH_SHORT).show()
-                }
-            }
-        })
+        viewModel.getCoin()
+        getData()
 
 
+
+        binding.swipe.setOnRefreshListener {
+            debug("swipe down to refresh the layout")
+            getData()
+
+        }
 
 
     }
 
+    private fun getData() {
+        viewModel.getCoin()
+        viewModel.coinResponse.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is Resource.Success -> {
+                    coinAdapter.setCoin(it.value)
+                    binding.progessBarCoin.visibility = View.GONE
+                    binding.swipe.isRefreshing = false
 
+                }
+                is Resource.Failure -> {
+                    binding.progessBarCoin.visibility = View.GONE
+                    binding.swipe.isRefreshing = false
+                    Toast.makeText(requireContext(), "Response Failure", Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
+    }
 
 
 }
