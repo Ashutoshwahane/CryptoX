@@ -4,6 +4,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import xyz.cybernerd404.cryptox.network.Resource
+import xyz.cybernerd404.cryptox.utils.debug
 
 abstract class BaseRepository {
     suspend fun  <T> safeApiCall(

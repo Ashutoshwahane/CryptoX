@@ -1,16 +1,12 @@
 package xyz.cybernerd404.cryptox.view.home.wallet
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.activity_main.*
-import xyz.cybernerd404.cryptox.R
-import xyz.cybernerd404.cryptox.adapter.HomeCoinAdapter
 import xyz.cybernerd404.cryptox.adapter.HomeTokenAdapter
-import xyz.cybernerd404.cryptox.databinding.FragmentCoinBinding
 import xyz.cybernerd404.cryptox.databinding.FragmentHomeWalletBinding
 import xyz.cybernerd404.cryptox.model.TokenModel
 

@@ -1,5 +1,6 @@
 package xyz.cybernerd404.cryptox.view.coins
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,13 +10,19 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import xyz.cybernerd404.cryptox.adapter.HomeCoinAdapter
 import xyz.cybernerd404.cryptox.databinding.FragmentCoinBinding
+import xyz.cybernerd404.cryptox.model.CoinResponseItem
 import xyz.cybernerd404.cryptox.network.CryptoApi
 import xyz.cybernerd404.cryptox.network.Resource
 import xyz.cybernerd404.cryptox.repository.CoinRepository
+import xyz.cybernerd404.cryptox.utils.CoinClickListener
 import xyz.cybernerd404.cryptox.utils.debug
+import xyz.cybernerd404.cryptox.utils.showToast
 import xyz.cybernerd404.cryptox.view.base.BaseFragment
+import xyz.cybernerd404.cryptox.view.coins.coinDetail.CoinDetailActivity
 
-class CoinFragment : BaseFragment<CoinViewModel, FragmentCoinBinding, CoinRepository>() {
+
+class CoinFragment : BaseFragment<CoinViewModel, FragmentCoinBinding, CoinRepository>(),
+    CoinClickListener {
 
     lateinit var coinAdapter: HomeCoinAdapter
 
@@ -32,7 +39,7 @@ class CoinFragment : BaseFragment<CoinViewModel, FragmentCoinBinding, CoinReposi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        coinAdapter = HomeCoinAdapter(requireContext())
+        coinAdapter = HomeCoinAdapter(requireContext(), this)
 
     }
 
@@ -44,20 +51,16 @@ class CoinFragment : BaseFragment<CoinViewModel, FragmentCoinBinding, CoinReposi
         binding.homeCoinRv.adapter = coinAdapter
         binding.homeCoinRv.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-
         binding.progessBarCoin.visibility = View.VISIBLE
 
         viewModel.getCoin()
         getData()
-
-
-
+        /** Pull down to refresh the screen*/
         binding.swipe.setOnRefreshListener {
             debug("swipe down to refresh the layout")
             getData()
 
         }
-
 
     }
 
@@ -78,6 +81,17 @@ class CoinFragment : BaseFragment<CoinViewModel, FragmentCoinBinding, CoinReposi
                 }
             }
         })
+    }
+
+    override fun coinClickListener(coinResponseItem: CoinResponseItem) {
+        activity.let {
+            Intent(it, CoinDetailActivity::class.java).apply {
+                putExtra("coin_id", coinResponseItem.id)
+                putExtra("coin_name", coinResponseItem.name)
+
+                startActivity(this)
+            }
+        }
     }
 
 

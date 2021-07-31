@@ -109,7 +109,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/roboto_light"
-        android:text="Tokens"
+        android:text="WATCHLIST"
         android:textColor="@color/secondary_text_color"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fab_layout" />
@@ -119,7 +119,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        tools:listitem="@layout/home_token_item_view"
+        tools:listitem="@layout/home_coin_item_view"
         tools:itemCount="5"
         app:layout_constraintTop_toBottomOf="@id/tokens_title_tv" />
 

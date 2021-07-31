@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_coin.*
 import kotlinx.android.synthetic.main.fragment_trending.*
 import xyz.cybernerd404.cryptox.R
+import xyz.cybernerd404.cryptox.adapter.CardNewsAdapter
 import xyz.cybernerd404.cryptox.adapter.TrendingNewsAdapter
 import xyz.cybernerd404.cryptox.databinding.FragmentTrendingBinding
 import xyz.cybernerd404.cryptox.network.CryptoApi
@@ -24,7 +25,7 @@ import xyz.cybernerd404.cryptox.view.base.BaseFragment
 class TrendingFragment : BaseFragment<NewsViewModel, FragmentTrendingBinding, NewsRepository>() {
 
     lateinit var newsAdapter: TrendingNewsAdapter
-
+    lateinit var cardAdapter: CardNewsAdapter
     override fun getViewModel(): Class<NewsViewModel> = NewsViewModel::class.java
 
     override fun getFragmentBinding(
@@ -39,10 +40,13 @@ class TrendingFragment : BaseFragment<NewsViewModel, FragmentTrendingBinding, Ne
         super.onViewCreated(view, savedInstanceState)
 
         newsAdapter = TrendingNewsAdapter(requireContext())
+        cardAdapter = CardNewsAdapter(requireContext())
 
         binding.trendingNewsRv.adapter = newsAdapter
         binding.trendingNewsRv.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.cardNewsRv.adapter = cardAdapter
+        binding.cardNewsRv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
         binding.progessBarNews.visibility = View.VISIBLE
 
@@ -63,6 +67,7 @@ class TrendingFragment : BaseFragment<NewsViewModel, FragmentTrendingBinding, Ne
             when (it) {
                 is Resource.Success -> {
                     newsAdapter.setNews(it.value.data)
+                    cardAdapter.setNews(it.value.data)
                     binding.progessBarNews.visibility = View.GONE
                     binding.swipeTrending.isRefreshing = false
 

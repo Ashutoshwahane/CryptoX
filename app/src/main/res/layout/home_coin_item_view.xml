@@ -4,18 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    android:background="@drawable/round_corner_background"
-    android:elevation="50dp">
+    android:background="@color/background"
+    android:elevation="10dp">
 
     <ImageView
         android:id="@+id/coin_iv"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:background="@drawable/round_background"
         android:src="@drawable/ic_coin"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -28,7 +28,7 @@
         android:fontFamily="@font/roboto_bold"
         android:text="Bitcoin"
         android:textColor="@color/primary_text_color"
-        android:textSize="14sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@id/coin_iv"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,6 +43,7 @@
         android:text="BTC"
         android:textAllCaps="true"
         android:textColor="@color/secondary_text_color"
+        android:textSize="13sp"
         app:layout_constraintStart_toEndOf="@id/coin_iv"
         app:layout_constraintTop_toBottomOf="@id/coin_title_tv" />
 

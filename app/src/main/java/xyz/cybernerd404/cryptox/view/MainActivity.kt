@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-        activeFragment = homeFragment
+        activeFragment = trendingFragment
 
         bottom_navigation.setOnNavigationItemSelectedListener(object :
             BottomNavigationView.OnNavigationItemSelectedListener {
@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
-        activeFragment = homeFragment
+        activeFragment = trendingFragment
     }
 
     private fun loadFragment(fragment: Fragment) {
