@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
+
         activeFragment = trendingFragment
 
         bottom_navigation.setOnNavigationItemSelectedListener(object :

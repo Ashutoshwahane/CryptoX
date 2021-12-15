@@ -40,7 +40,6 @@ class CoinFragment : BaseFragment<CoinViewModel, FragmentCoinBinding, CoinReposi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         coinAdapter = HomeCoinAdapter(requireContext(), this)
-
     }
 
 

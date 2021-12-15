@@ -1,5 +1,67 @@
 <resources>
     <string name="app_name">CryptoX</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="currency_preference">Currency</string>
+
+    <string-array name="currency">
+        <item>inr</item>
+        <item>usd</item>
+        <item>aed</item>
+        <item>ars</item>
+        <item>aud</item>
+        <item>bch</item>
+        <item>bdt</item>
+        <item>bhd</item>
+        <item>bits</item>
+        <item>bmd</item>
+        <item>bnb</item>
+        <item>brl</item>
+        <item>btc</item>
+        <item>cad</item>
+        <item>chf</item>
+        <item>clp</item>
+        <item>cny</item>
+        <item>czk</item>
+        <item>dkk</item>
+        <item>dot</item>
+        <item>eos</item>
+        <item>eth</item>
+        <item>eur</item>
+        <item>gbp</item>
+        <item>hkd</item>
+        <item>huf</item>
+        <item>idr</item>
+        <item>ils</item>
+        <item>jpy</item>
+        <item>krw</item>
+        <item>kwd</item>
+        <item>link</item>
+        <item>lkr</item>
+        <item>ltc</item>
+        <item>mmk</item>
+        <item>mxn</item>
+        <item>myr</item>
+        <item>ngn</item>
+        <item>nok</item>
+        <item>nzd</item>
+        <item>php</item>
+        <item>pkr</item>
+        <item>pln</item>
+        <item>rub</item>
+        <item>sar</item>
+        <item>sats</item>
+        <item>sek</item>
+        <item>sgd</item>
+        <item>thb</item>
+        <item>try</item>
+        <item>twd</item>
+        <item>uah</item>
+        <item>vef</item>
+        <item>vnd</item>
+        <item>xag</item>
+        <item>xdr</item>
+        <item>xrp</item>
+        <item>yfi</item>
+        <item>zar</item>
+    </string-array>
 </resources>

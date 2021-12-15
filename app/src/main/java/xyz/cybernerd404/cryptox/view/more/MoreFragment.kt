@@ -1,60 +1,92 @@
 package xyz.cybernerd404.cryptox.view.more
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import xyz.cybernerd404.cryptox.R
+import xyz.cybernerd404.cryptox.databinding.FragmentMoreBinding
+import xyz.cybernerd404.cryptox.utils.SessionManager
+import xyz.cybernerd404.cryptox.utils.debug
+import xyz.cybernerd404.cryptox.utils.showToast
+import kotlin.math.absoluteValue
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class MoreFragment : Fragment(R.layout.fragment_more), AdapterView.OnItemSelectedListener {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [MoreFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class MoreFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    lateinit var binding: FragmentMoreBinding
+    lateinit var sessionManager: SessionManager
+    var postion = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_more, container, false)
+        binding = FragmentMoreBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment MoreFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            MoreFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        sessionManager = SessionManager(requireContext())
+        val selectedCurrency = sessionManager.fetchCurrency()
+        debug("selectedCurrency: $selectedCurrency")
+
+        if (selectedCurrency == null) {
+            binding.languageSpinner.setSelection(1, false)
+        } else {
+            postion = getPosition(selectedCurrency)
+            debug("postion: $postion")
+            binding.languageSpinner.setSelection(postion, false)
+        }
+
+
+
+        binding.languageSpinner.onItemSelectedListener = this
+// Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.currency,
+            R.layout.spinner_text
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(R.layout.spinner_text)
+            // Apply the adapter to the spinner
+            binding.languageSpinner.adapter = adapter
+        }
+
+        binding.languageSpinner.setSelection(postion)
     }
+
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        if (view != null) {
+            val currency = parent?.selectedItem.toString()
+            sessionManager.saveCurrency(currency)
+            debug("itemSelected: $currency")
+        }
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+
+    }
+
+    private fun getPosition(currency: String): Int {
+        var index = 0
+        val arr = resources.getStringArray(R.array.currency).toList()
+        arr.forEach {
+            if (currency.equals(it, true)) {
+                index = arr.indexOf(it)
+            }
+        }
+        return index
+    }
+
+
 }

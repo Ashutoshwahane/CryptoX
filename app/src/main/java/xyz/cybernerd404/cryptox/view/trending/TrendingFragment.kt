@@ -1,5 +1,6 @@
 package xyz.cybernerd404.cryptox.view.trending
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import androidx.fragment.app.Fragment
@@ -18,11 +19,12 @@ import xyz.cybernerd404.cryptox.databinding.FragmentTrendingBinding
 import xyz.cybernerd404.cryptox.network.CryptoApi
 import xyz.cybernerd404.cryptox.network.Resource
 import xyz.cybernerd404.cryptox.repository.NewsRepository
+import xyz.cybernerd404.cryptox.utils.NewsClickListener
 import xyz.cybernerd404.cryptox.utils.debug
 import xyz.cybernerd404.cryptox.view.base.BaseFragment
 
 
-class TrendingFragment : BaseFragment<NewsViewModel, FragmentTrendingBinding, NewsRepository>() {
+class TrendingFragment : BaseFragment<NewsViewModel, FragmentTrendingBinding, NewsRepository>(), NewsClickListener {
 
     lateinit var newsAdapter: TrendingNewsAdapter
     lateinit var cardAdapter: CardNewsAdapter
@@ -39,7 +41,7 @@ class TrendingFragment : BaseFragment<NewsViewModel, FragmentTrendingBinding, Ne
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        newsAdapter = TrendingNewsAdapter(requireContext())
+        newsAdapter = TrendingNewsAdapter(requireContext(), this)
         cardAdapter = CardNewsAdapter(requireContext())
 
         binding.trendingNewsRv.adapter = newsAdapter
@@ -67,7 +69,7 @@ class TrendingFragment : BaseFragment<NewsViewModel, FragmentTrendingBinding, Ne
             when (it) {
                 is Resource.Success -> {
                     newsAdapter.setNews(it.value.data)
-                    cardAdapter.setNews(it.value.data)
+//                    cardAdapter.setNews(it.value.data)
                     binding.progessBarNews.visibility = View.GONE
                     binding.swipeTrending.isRefreshing = false
 
@@ -80,5 +82,14 @@ class TrendingFragment : BaseFragment<NewsViewModel, FragmentTrendingBinding, Ne
                 }
             }
         })
+    }
+
+    override fun newsClickListener(newUrl: String) {
+        activity.let {
+            Intent(it, NewsActivity::class.java).apply {
+                putExtra("newUrl", newUrl)
+                startActivity(this)
+            }
+        }
     }
 }

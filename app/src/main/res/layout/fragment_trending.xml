@@ -24,6 +24,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/card_news_item_view"
             android:orientation="horizontal"
+            android:visibility="gone"
             tools:itemCount="4"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
              />

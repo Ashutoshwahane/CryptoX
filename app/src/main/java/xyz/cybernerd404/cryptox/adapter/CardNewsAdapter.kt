@@ -17,7 +17,7 @@ class CardNewsAdapter(private val context: Context) :
     var list: List<Data> = arrayListOf()
 
     fun setNews(response: List<Data>) {
-        this.list = response.reversed()
+        this.list = response
 
         notifyDataSetChanged()
     }

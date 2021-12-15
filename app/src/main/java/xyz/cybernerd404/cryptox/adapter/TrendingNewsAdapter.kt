@@ -9,9 +9,10 @@ import kotlinx.android.synthetic.main.home_coin_item_view.view.*
 import xyz.cybernerd404.cryptox.R
 import xyz.cybernerd404.cryptox.databinding.TrendingNewsItemLayoutBinding
 import xyz.cybernerd404.cryptox.model.Data
+import xyz.cybernerd404.cryptox.utils.NewsClickListener
 
 
-class TrendingNewsAdapter(private val context: Context) :
+class TrendingNewsAdapter(private val context: Context, val newsClickListener: NewsClickListener) :
     RecyclerView.Adapter<TrendingNewsAdapter.ViewHolder>() {
     var list: List<Data> = arrayListOf()
 
@@ -42,6 +43,10 @@ class TrendingNewsAdapter(private val context: Context) :
         holder.binding.newsTitleTv.text = list[position].title
         holder.binding.timeStampItemTv.text = list[position].date
         holder.binding.sourceItemTv.text = "Source : ${list[position].source_name}"
+
+        holder.binding.root.setOnClickListener {
+            newsClickListener.newsClickListener(list[position].news_url)
+        }
 
 
     }
