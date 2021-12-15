@@ -26,6 +26,13 @@ It simple Crypto Currency Companion App, Wants to make this as a software crypto
 ## Coins
 Listing of all the crpto coins with pricing ( it supports multiple currency ).
 
+<div align="left">
+    <img src="screenshot/screenshot5.png" width="300px"</img> 
+    <img src="screenshot/screenshot6.png" width="300px"</img>                                            
+</div>
+
+## BlockChain
+Add or Write Message to understand the basic blockchain functionality.
 
 ## Built With 🛠
 - [Kotlin](https://kotlinlang.org/) - First class and official programming language for Android development.
