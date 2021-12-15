@@ -22,9 +22,9 @@
         tools:layout="@layout/fragment_trending" />
     <fragment
         android:id="@+id/exchangeFragment"
-        android:name="xyz.cybernerd404.cryptox.view.exchange.ExchangeFragment"
-        android:label="fragment_exchange"
-        tools:layout="@layout/fragment_exchange" />
+        android:name="xyz.cybernerd404.cryptox.view.exchange.BlockChainFragment"
+        android:label="fragment_blockchain"
+        tools:layout="@layout/fragment_blockchain" />
     <fragment
         android:id="@+id/moreFragment"
         android:name="xyz.cybernerd404.cryptox.view.more.MoreFragment"
