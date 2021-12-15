@@ -34,6 +34,8 @@ Listing of all the crpto coins with pricing ( it supports multiple currency ).
 ## BlockChain
 Add or Write Message to understand the basic blockchain functionality.
 
+## Setup :-> Clone the Repository and build the project. That's it!
+
 ## Built With 🛠
 - [Kotlin](https://kotlinlang.org/) - First class and official programming language for Android development.
 - [Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html) - For asynchronous and more..
