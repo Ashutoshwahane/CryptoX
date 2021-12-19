@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import xyz.cybernerd404.cryptox.R
+import xyz.cybernerd404.cryptox.databinding.ActivityMainBinding
 import xyz.cybernerd404.cryptox.view.coins.CoinFragment
 import xyz.cybernerd404.cryptox.view.exchange.BlockChainFragment
 import xyz.cybernerd404.cryptox.view.home.HomeFragment
@@ -26,59 +27,62 @@ class MainActivity : AppCompatActivity() {
     private val exchangeFragment = BlockChainFragment()
     private val moreFragment = MoreFragment()
 
+    lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         activeFragment = trendingFragment
 
-        bottom_navigation.setOnNavigationItemSelectedListener(object :
-            BottomNavigationView.OnNavigationItemSelectedListener {
-            override fun onNavigationItemSelected(item: MenuItem): Boolean {
-                when (item.itemId) {
-                    R.id.homeFragment -> {
-                        loadFragment(homeFragment)
-                        return true
-                    }
-                    R.id.coinFragment -> {
-                        loadFragment(coinFragment)
-                        return true
-                    }
-                    R.id.trendingFragment -> {
-                        loadFragment(trendingFragment)
-                        return true
-                    }
-                    R.id.exchangeFragment -> {
-                        loadFragment(exchangeFragment)
-                        return true
-                    }
-                    R.id.moreFragment -> {
-                        loadFragment(moreFragment)
-                        return true
-                    }
+        binding.bottomNavigation.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.homeFragment -> {
+                    loadFragment(homeFragment)
+                    return@setOnItemSelectedListener true
+                }
+                R.id.coinFragment -> {
+                    loadFragment(coinFragment)
+                    return@setOnItemSelectedListener true
+                }
+                R.id.trendingFragment -> {
+                    loadFragment(trendingFragment)
+                    return@setOnItemSelectedListener true
+                }
+                R.id.exchangeFragment -> {
+                    loadFragment(exchangeFragment)
+                    return@setOnItemSelectedListener true
+                }
+                R.id.moreFragment -> {
+                    loadFragment(moreFragment)
+                    return@setOnItemSelectedListener true
+                }
 
-                    else -> {
-                        loadFragment(homeFragment)
-                        return false
-                    }
+                else -> {
+                    loadFragment(homeFragment)
+                    return@setOnItemSelectedListener false
                 }
             }
-        })
-        activeFragment = trendingFragment
+
+            activeFragment = trendingFragment
+
+            return@setOnItemSelectedListener true
+        }
     }
 
     private fun loadFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
         supportFragmentManager.executePendingTransactions()
-        if (!fragment.isAdded) {
+        activeFragment = if (!fragment.isAdded) {
             transaction.hide(activeFragment)
             transaction.add(R.id.fragmentContainerView, fragment)
             transaction.show(fragment)
-            activeFragment = fragment
+            fragment
         } else {
             transaction.hide(activeFragment)
             transaction.show(fragment)
-            activeFragment = fragment
+            fragment
         }
         transaction.commitAllowingStateLoss()
         supportFragmentManager.executePendingTransactions()

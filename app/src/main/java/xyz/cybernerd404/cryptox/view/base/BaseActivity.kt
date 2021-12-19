@@ -15,7 +15,7 @@ import xyz.cybernerd404.cryptox.repository.BaseRepository
 
 /**
  *
- * viewModel, repository, and data binding for every fragment
+ * viewModel, repository, and data binding for every Activity
  *
  * */
 

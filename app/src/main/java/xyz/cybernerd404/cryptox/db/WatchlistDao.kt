@@ -11,7 +11,7 @@ interface WatchlistDao {
     )
 
     @Query("SELECT * FROM crypto_coin_table")
-    suspend fun getNotes(): List<WatchlistCoinEntity>
+    suspend fun getCoin(): List<WatchlistCoinEntity>
 
 
 }
